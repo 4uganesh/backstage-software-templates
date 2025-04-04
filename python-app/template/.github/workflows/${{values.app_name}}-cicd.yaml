@@ -43,19 +43,17 @@ jobs:
           git config --global user.name "mygame"
           git config --global user.email "xxxx@gmail.com"
       
-      - name: Modify values file
+     - name: Modify values file
         shell: bash
         run: |
           echo ${{ '${{needs.ci.outputs.commit_id}}' }}
           pip install yq
           yq -Yi '.image.tag = "${{'${{needs.ci.outputs.commit_id}}' }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
 
-      - name: Push changes
-        run: |
-          git add charts/${{values.app_name}}/values-${{values.app_env}}.yaml
-          git remote set-url origin https://x-access-token:${{ '${{ secrets.GIT_TOKEN }}' }}@github.com/hsenagr/${{values.app_name}.git
-          git commit -m "Automated commit"
-          git push origin master
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
           
       # - name: Commit changes
       #   uses: EndBug/add-and-commit@v9
