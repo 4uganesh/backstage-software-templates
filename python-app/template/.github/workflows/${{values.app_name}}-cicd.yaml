@@ -53,7 +53,7 @@ jobs:
       - name: Push changes
         run: |
           git add charts/${{values.app_name}}/values-${{values.app_env}}.yaml
-          git remote set-url origin https://x-access-token:${{ '${{ secrets.GIT_TOKEN }}' }}"'@github.com/hsenagr/${{values.app_name}.git
+          git remote set-url origin https://x-access-token:${{ '${{ secrets.GIT_TOKEN }}' }}@github.com/hsenagr/${{values.app_name}.git
           git commit -m "Automated commit"
           git push origin master
           
