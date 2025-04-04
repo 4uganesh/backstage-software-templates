@@ -54,7 +54,7 @@ jobs:
         run: |
           git add charts/${{values.app_name}}/values-${{values.app_env}}.yaml
           git commit -m "Automated commit message"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/hsenagr/${{values.app_name}}.git
+          git push https://x-access-token:${{ '${{ secrets.GH_TOKEN }}' }}@github.com/hsenagr/${{values.app_name}}.git
           
       # - name: Commit changes
       #   uses: EndBug/add-and-commit@v9
