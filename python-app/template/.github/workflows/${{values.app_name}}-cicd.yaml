@@ -45,10 +45,16 @@ jobs:
           pip install yq
           yq -Yi '.image.tag = "${{'${{needs.ci.outputs.commit_id}}' }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
 
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
+      - name: Push changes
+        run: |
+          git add charts/${{values.app_name}}/values-${{values.app_env}}.yaml
+          git commit -m "Automated commit message"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/hsenagr/${{values.app_env}}.git
+          
+      # - name: Commit changes
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
 
       - name: Install argocd
         shell: bash
